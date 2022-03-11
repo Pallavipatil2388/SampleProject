@@ -1,0 +1,23 @@
+2022-Mar-11 23:15:55 pm [main] INFO  myproject.core.webfactorydriver - Chrome Browser invoked
+2022-Mar-11 23:15:55 pm [main] INFO  myproject.core.webfactorydriver - Driver maximized and implicit time out set to 20 seconds
+2022-Mar-11 23:15:55 pm [main] INFO  myproject.stepdef.stepdef - Brower invoke
+2022-Mar-11 23:16:46 pm [main] INFO  myproject.core.webfactorydriver - Driver closed
+2022-Mar-11 23:16:48 pm [main] INFO  myproject.core.webfactorydriver - Chrome Browser invoked
+2022-Mar-11 23:16:49 pm [main] INFO  myproject.core.webfactorydriver - Driver maximized and implicit time out set to 20 seconds
+2022-Mar-11 23:16:49 pm [main] INFO  myproject.stepdef.stepdef - Brower invoke
+2022-Mar-11 23:18:22 pm [main] INFO  myproject.stepdef.stepdef - Logo displyaed
+2022-Mar-11 23:18:25 pm [main] INFO  myproject.core.webfactorydriver - Driver closed
+2022-Mar-11 23:18:27 pm [main] INFO  myproject.core.webfactorydriver - Chrome Browser invoked
+2022-Mar-11 23:18:27 pm [main] INFO  myproject.core.webfactorydriver - Driver maximized and implicit time out set to 20 seconds
+2022-Mar-11 23:18:27 pm [main] INFO  myproject.stepdef.stepdef - Brower invoke
+2022-Mar-11 23:20:04 pm [main] INFO  myproject.core.webfactorydriver - Driver closed
+2022-Mar-11 23:20:06 pm [main] INFO  myproject.core.webfactorydriver - Chrome Browser invoked
+2022-Mar-11 23:20:06 pm [main] INFO  myproject.core.webfactorydriver - Driver maximized and implicit time out set to 20 seconds
+2022-Mar-11 23:20:06 pm [main] INFO  myproject.stepdef.stepdef - Brower invoke
+2022-Mar-11 23:20:55 pm [main] INFO  myproject.stepdef.stepdef - Page validate
+2022-Mar-11 23:20:57 pm [main] INFO  myproject.core.webfactorydriver - Driver closed
+2022-Mar-11 23:20:59 pm [main] INFO  myproject.core.webfactorydriver - Chrome Browser invoked
+2022-Mar-11 23:21:00 pm [main] INFO  myproject.core.webfactorydriver - Driver maximized and implicit time out set to 20 seconds
+2022-Mar-11 23:21:00 pm [main] INFO  myproject.stepdef.stepdef - Brower invoke
+2022-Mar-11 23:21:19 pm [main] INFO  myproject.stepdef.stepdef - Footerlink will open
+2022-Mar-11 23:21:27 pm [main] INFO  myproject.core.webfactorydriver - Driver closed

@@ -32,3 +32,4 @@ WebDriverTopics.iml
 *.DS_Store
 .idea
 chromedriver
+/*.log
