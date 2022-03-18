@@ -1,37 +1,62 @@
 @ui @check @automationpractice
-Feature:E-commerse shopping website checking
+Feature: Validate the functionality of E-commerse shopping website
 
-Scenario: User open browser and navigate to home URL
-    Given user have valid application URL
-    When user open the url and validate
-    Then user navigate to the index page
+@homepage
+Scenario Outline: Validate that user is able to verify url redirecion functionality of application
+   Given user have valid "<Application_URL>"
+   When user open the application
+   Then user should be redirected to index page of application
 
-Scenario: Application logo visisbility
-     Given user have valid application URL
-     And user navigate to the index page
-     When Application logo should be visible
-     Then Logo width as 350 and height as 99 
+   Examples:
+        |Application_URL|
+        | http://automationpractice.com|
+
+@checklogo
+Scenario Outline: Validate that user is able to view visisbility of Application logo
+       Given user have valid "<Application_URL>"
+       When user open the application
+       Then Application logo should be visible
+       And Logo width should be "<width>" and height should be "<height>"
+
+  Examples:
+     |Application_URL              |width|height|
+     |http://automationpractice.com|350  | 99   |
+
+
+@checkmaincat    
+Scenario Outline: Validate that user is able to validate product category list from application
+      Given user have valid "<Application_URL>"
+      When user open the application
+      Then user should validate that main category count should be "<count>"
+      And user should be validate category as below
+      |Cat_Name |
+      | Dresses |
+      |T-shirts |
     
-Scenario: Application main category list validation
-     Given user have valid application URL
-     And user navigate to the index page
-     When User find the main category list on Index page
-     Then User hover the mouse on main category
+   Examples:
+     |Application_URL              |count|
+     |http://automationpractice.com|  3  | 
+      
 
-Scenario Outline: User doing search functinality
-     Given user have valid application URL
-     And user navigate to the index page
-     When User Search for product "<product_name>"
-     Then Search Result page is displayed
-    Examples:
-      |product_name|
-      |  T-shirt   |
+@searchproduct
+Scenario Outline: Validate that user is able to test search functinality of product
+      Given user have valid "<Application_URL>"
+      When user open the application
+      And User Search for product "<product_name>"
+      Then Search Result page is displayed
+   Examples:
+     |product_name|Application_URL              |
+     |  T-shirt   |http://automationpractice.com |
+     
  
-Scenario: Social media handles validation
-      Given user have valid application URL
-      When User click on footer link
-      Then Twitter account will open in new tab
-      
-      
-     
-     
+@footerlink
+Scenario Outline: Validate that user is able to test Social media handles validation
+        Given user have valid "<Application_URL>"
+        When user open the application
+        And user clicks on footerlink Twitter
+        Then user should be validate new tab opens with url "seleniumfrmwrk"
+        And account name should be "<name>"
+        
+   Examples:
+   |Application_URL               |name              |
+   |http://automationpractice.com |Selenium Framework|

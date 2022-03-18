@@ -1,6 +1,9 @@
 package myproject.stepdef;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
@@ -24,21 +27,29 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import myproject.core.webfactorydriver;
 
+import myproject.pageobject.MyStoreHomepage;
+
+
 public class stepdef {
    
 	private static final Logger logger = LogManager.getLogger(stepdef.class);
 	WebDriver driver;
-    String base_url = "http://automationpractice.com";
+    String base_url = null;
     int implicit_wait_timeout_in_sec = 20;
     Scenario scn;
-	
+    
+    MyStoreHomepage myStorePageObject;
+    
     @Before
     public void setUp(Scenario scn) throws Exception{
     	this.scn = scn;
     	String browserName = webfactorydriver.getBrowserName();
         driver = webfactorydriver.getWebDriverForBrowser(browserName);
-        logger.info("Brower invoke");
-    }
+        logger.info("Browser invoke");
+        
+        myStorePageObject = new MyStoreHomepage(driver);
+        
+           }
     
    @After(order=1)
     public void cleanUp()
@@ -57,147 +68,95 @@ public class stepdef {
       }
     }
 	
-     
-    
-	@Given("user have valid application URL")
-	public void user_navigate_to_url()
-	{
-		driver.get(base_url);
-        String titleofpage =driver.getTitle();
-        scn.log("Page title is =  " + titleofpage); 
-	}
-
-	@When("user open the url and validate")
-	public void user_validate_home_page_url() 
-	{
-		String expected = "My Store";
-        String actual =driver.getTitle();
-        Assert.assertEquals("Page Title validation",expected,actual);  
-        scn.log("page tile validation successfull " + actual); 
-	}
-	
-	@Then("user navigate to the index page")
-	public void result_page_open_then_close() 
-	{
-		if(driver.getCurrentUrl().equalsIgnoreCase("http://automationpractice.com/index.php"))
-		{
-	         System.out.println("Test Pass"); 
-	    } 
-		else 
-		{ 
-	         System.out.println("Test Failed"); 
-	    } 
-		
-	}
-	
-	@Given("user open the index page")
-	public void user_open_the_index_page() 
-	{
-	    String indexpageURL = driver.getCurrentUrl();
-	    scn.log(indexpageURL);
-	}
-
-	@When("Application logo should be visible")
-	public void application_logo_should_be_visible() 
-	{
-		Actions act =new Actions(driver);
-		WebElement logopresent = driver.findElement(By.xpath("//img[@class='img-responsive']"));
-		act.moveToElement(logopresent).build().perform();
-	    scn.log("Logo displyaed");
-	    logger.info("Logo displyaed");
-	}
-	@Then("Logo width as {int} and height as {int}")
-	public void logo_width_as_and_height_as(Integer int1, Integer int2) 
-	{
-	    int width = driver.findElement(By.xpath("//img[@class='img-responsive']")).getSize().getWidth();
-	    int height= driver.findElement(By.xpath("//img[@class='img-responsive']")).getSize().getHeight();
-	    System.out.println(width);
-	    System.out.println(height);
-	   
-	    //Assert.assertEquals(width, 350);
-	   // Assert.assertEquals(height, 99);
-	}
-
-	@When("User find the main category list on Index page")
-	public void user_find_the_main_category_list_on_index_page() 
-	{
-	   WebElement tab1=driver.findElement(By.xpath("//a[@title='Women']"));
-	   Assert.assertEquals("1st category",true,tab1.isDisplayed());
-	   
-	   WebElement tab2=driver.findElement(By.xpath("(//a[@title='Dresses'])[2]"));
-	   Assert.assertEquals("2nd category",true,tab2.isDisplayed());
-	   
-	   WebElement tab3=driver.findElement(By.xpath("(//a[@title='T-shirts'])[2]"));
-	   Assert.assertEquals("3rd category",true,tab3.isDisplayed());
-	   	         
-       scn.log("All 3 categories are displayed");
+    @Given("user have valid {string}")
+    public void user_have_valid(String urlName) 
+    {
+        Assert.assertNotEquals(0, urlName.length());
+        this.base_url = urlName;
     }
 
 
-	@Then("User hover the mouse on main category")
-	public void user_find_same_text_on_main_category() throws InterruptedException
-	{
-		   Actions act =new Actions(driver);
-		   WebElement Women=driver.findElement(By.xpath("//a[@title='Women']"));		   
-		   act.moveToElement(Women).build().perform();
-		   Thread.sleep(2000);
-		  
-		   WebElement Dresses=driver.findElement(By.xpath("(//a[@title='Dresses'])[2]"));
-		   act.moveToElement(Dresses).build().perform();
-		   Thread.sleep(2000);
-		   
-		   WebElement T_shirt=driver.findElement(By.xpath("(//a[@title='T-shirts'])[2]"));
-		   act.moveToElement(T_shirt).build().perform();
-		   Thread.sleep(2000);
-	       scn.log("Mouse hover action done by user");
-	}
-	
-	@When("User Search for product {string}")
-	public void user_search_for_product(String product_name) 
-	{
-	    WebElement searchbox=driver.findElement(By.xpath("//input[@class='search_query form-control ac_input']"));
-	    searchbox.sendKeys(product_name);
-	    
-	    WebElement searchbtn=driver.findElement(By.xpath("//button[@name='submit_search']"));
-	    searchbtn.click();
-	    scn.log("Displayed search produect information");
-	}
-	
-	@Then("Search Result page is displayed")
-	public void search_result_page_is_displayed()
-	{
-	    String expectedtitle="Search - My Store";
-	    String actualtitle = driver.getTitle();
-	    Assert.assertEquals("Page valiadtion", expectedtitle,actualtitle);
-	    logger.info("Page validate");
-	}
+    @When("user open the application")
+    public void user_open_the_application() 
+    {
+    	webfactorydriver.navigateToTheUrl(this.base_url);
+    }
+    
+    @Then("user should be redirected to index page of application")
+    public void user_should_be_redirected_to_index_page_of_application() 
+    {
+        String redirectedUrl = webfactorydriver.getCurrentAppUrl();
+        Assert.assertNotEquals("The application doesnot redirected to url ", this.base_url, redirectedUrl);
+    }
 
-	@When("User click on footer link")
-	public void user_click_on_footer_link_and_validate() 
-	{
-		WebElement footerlink = driver.findElement(By.xpath("//li[@class='twitter']/a[@target='_blank']"));
-		footerlink.click();
-		logger.info("Footerlink will open");
-		if(driver.getCurrentUrl().equalsIgnoreCase("seleniumfrmwrk"))
-			System.out.println("Test passed");
-		else
-			System.out.println("Test failed");
-	}
-
-	@Then("Twitter account will open in new tab")
-	public void twitter_account_will_open_in_new_tab() 
-	{
-		Set<String> handles = driver.getWindowHandles(); 
-        Iterator<String> it = handles.iterator(); 
-        String original = it.next();
-        String twitterAC = it.next();
-        driver.switchTo().window(twitterAC);  
-        
-        WebDriverWait webDriverWait1 = new WebDriverWait(driver,20);
-        WebElement accName=driver.findElement(By.xpath("(//span[contains(text(),'Selenium Framework')])[2]"));
-        Assert.assertEquals("Account Name ",true,accName.isDisplayed());
-        
-        driver.switchTo().window(original);            
       
-	}
+    @Then("Application logo should be visible")
+    public void application_logo_should_be_visible() 
+    {
+        Assert.assertEquals("Logo not visible",true,myStorePageObject.getVisbilityOfLogo());
+    }
+    
+    @Then("Logo width should be {string} and height should be {string}")
+    public void logo_width_should_be_and_height_should_be(String width, String height) 
+    {
+       int actualWidth = myStorePageObject.getLogoWidth();
+       int actualHeight =myStorePageObject.getLogoHeight();
+       assertEquals("Width not match ", actualWidth, Integer.parseInt(width));
+       assertEquals("Height not match ", actualHeight, Integer.parseInt(height));
+    }
+
+    
+    @Then("user should validate that main category count should be {string}")
+    public void user_should_validate_that_main_category_count_should_be(String count)
+    {
+        int actualCount = myStorePageObject.getOptionCount();
+        assertEquals("count not match ", actualCount, Integer.parseInt(count));
+    }
+    
+    @Then("user should be validate category as below")
+    public void user_should_be_validate_category_as(List<String> Cat_Name ) 
+    {
+        for(int i = 1;i<Cat_Name.size();i++)
+        {
+        	assertEquals("Catgory not found " + Cat_Name.get(i) + " " , true,myStorePageObject.getVisibilityOfElement(Cat_Name.get(i)));
+        }
+    }
+  
+    @When("User Search for product {string}")
+    public void user_search_for_product(String product_name)
+    {
+        myStorePageObject.enterTextIntoSearchFiled(product_name);
+    }
+    
+    @Then("Search Result page is displayed")
+    public void search_result_page_is_displayed() 
+    {
+        assertEquals("Result not found",true,myStorePageObject.getVisibilityofResult());
+    }
+
+       
+    @When("user clicks on footerlink Twitter")
+    public void user_clicks_on_footerlink_twitter() 
+    {
+        myStorePageObject.clickontwitterlink();
+    }
+    
+    @Then("user should be validate new tab opens with url {string}")
+    public void user_should_be_validate_new_tab_opens_with_url(String url_name) 
+    {
+       myStorePageObject.switchToTwittertab();
+       String newUrl = myStorePageObject.getNewpageURL();
+       System.out.println(newUrl);
+       System.out.println(url_name);
+       
+       assertEquals("New Twitter URL does not match",true,newUrl.contains(url_name));
+    }
+    
+    @Then("account name should be {string}")
+    public void account_name_should_be(String name) 
+    {
+        
+        assertEquals("Account name does not match",true,myStorePageObject.getvisibilityOfAccountname(name));
+    }
+
 }

@@ -65,7 +65,8 @@ public class webfactorydriver
         logger.info("Switched to the new window/tab");
     }
 
-    public static String getBrowserName(){
+    public static String getBrowserName()
+    {
         String browserDefault = "chrome"; 
         String browserSentFromCmd = System.getProperty("browser");
 
@@ -74,6 +75,11 @@ public class webfactorydriver
         }else{
             return browserSentFromCmd;
         }
+    }
+    
+    public static String getCurrentAppUrl()
+    {
+    	return driver.getCurrentUrl();
     }
   }
 	
