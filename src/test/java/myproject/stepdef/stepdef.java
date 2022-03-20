@@ -73,6 +73,7 @@ public class stepdef {
     {
         Assert.assertNotEquals(0, urlName.length());
         this.base_url = urlName;
+        
     }
 
 
@@ -80,6 +81,7 @@ public class stepdef {
     public void user_open_the_application() 
     {
     	webfactorydriver.navigateToTheUrl(this.base_url);
+    	scn.log("User navigate to application");
     }
     
     @Then("user should be redirected to index page of application")
@@ -87,6 +89,7 @@ public class stepdef {
     {
         String redirectedUrl = webfactorydriver.getCurrentAppUrl();
         Assert.assertNotEquals("The application doesnot redirected to url ", this.base_url, redirectedUrl);
+        scn.log("User redirected to index page");
     }
 
       
@@ -94,6 +97,7 @@ public class stepdef {
     public void application_logo_should_be_visible() 
     {
         Assert.assertEquals("Logo not visible",true,myStorePageObject.getVisbilityOfLogo());
+        scn.log("Application logo will be visible");
     }
     
     @Then("Logo width should be {string} and height should be {string}")
@@ -103,6 +107,8 @@ public class stepdef {
        int actualHeight =myStorePageObject.getLogoHeight();
        assertEquals("Width not match ", actualWidth, Integer.parseInt(width));
        assertEquals("Height not match ", actualHeight, Integer.parseInt(height));
+       
+       scn.log("Compare the application logo width and height");
     }
 
     
@@ -110,7 +116,9 @@ public class stepdef {
     public void user_should_validate_that_main_category_count_should_be(String count)
     {
         int actualCount = myStorePageObject.getOptionCount();
+        System.out.println("The actaul count = " + actualCount);
         assertEquals("count not match ", actualCount, Integer.parseInt(count));
+        scn.log("Validate the main category and actual count is -" + actualCount);
     }
     
     @Then("user should be validate category as below")
@@ -118,7 +126,7 @@ public class stepdef {
     {
         for(int i = 1;i<Cat_Name.size();i++)
         {
-        	assertEquals("Catgory not found " + Cat_Name.get(i) + " " , true,myStorePageObject.getVisibilityOfElement(Cat_Name.get(i)));
+        	Assert.assertEquals("Catgory not found " + Cat_Name.get(i) + " " , true,myStorePageObject.getVisibilityOfElement(Cat_Name.get(i)));
         }
     }
   
@@ -126,12 +134,14 @@ public class stepdef {
     public void user_search_for_product(String product_name)
     {
         myStorePageObject.enterTextIntoSearchFiled(product_name);
+        scn.log("User search for product - " + product_name);
     }
     
     @Then("Search Result page is displayed")
     public void search_result_page_is_displayed() 
     {
         assertEquals("Result not found",true,myStorePageObject.getVisibilityofResult());
+        scn.log("The Search result page should display");
     }
 
        

@@ -16,7 +16,8 @@ public class webfactorydriver
 {
 	private static final Logger logger = LogManager.getLogger(webfactorydriver.class);
 	private static WebDriver driver=null;
-    public static WebDriver getWebDriverForBrowser(String browser) throws Exception {
+    public static WebDriver getWebDriverForBrowser(String browser) throws Exception 
+    {
         switch(browser.toLowerCase()){
             case "chrome":
                 driver = new ChromeDriver();
@@ -70,9 +71,12 @@ public class webfactorydriver
         String browserDefault = "chrome"; 
         String browserSentFromCmd = System.getProperty("browser");
 
-        if (browserSentFromCmd==null){
+        if (browserSentFromCmd==null)
+        {
             return browserDefault;
-        }else{
+        }
+        else
+        {
             return browserSentFromCmd;
         }
     }

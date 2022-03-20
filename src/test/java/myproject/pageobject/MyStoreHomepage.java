@@ -9,6 +9,7 @@ import org.junit.Assert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -18,14 +19,14 @@ public class MyStoreHomepage
 	private static final Logger logger = LogManager.getLogger(MyStoreHomepage.class);
 	WebDriver driver;
 
-	private By applogo = By.xpath("//img[@class='img-responsive']");
-	private By menuOption =By.xpath("//ul[@class = 'sf-menu clearfix menu-content sf-js-enabled sf-arrows']/li");
+	 private By applogo = By.xpath("//img[@class='img-responsive']");
+	 private By menuOption =By.xpath("//ul[@class = 'sf-menu clearfix menu-content sf-js-enabled sf-arrows']/li");
 	 private By searchbox = By.xpath("//input[@class='search_query form-control ac_input']");
 	 private By searchresult = By.xpath("//*[@id='index']/div[2]/ul/li/strong");
 	 private By footerlink = By.xpath("//li[@class='twitter']/a[@target='_blank']");
      private By accountname = By.xpath("(//span[contains(text(),'Selenium Framework')])[2]");
      
-	 //private By searchbtn = By.xpath("//button[@name='submit_search']");
+	//private By searchbtn = By.xpath("//button[@name='submit_search']");
 
 	public MyStoreHomepage(WebDriver driver) 
 	{
@@ -59,7 +60,8 @@ public class MyStoreHomepage
 		String path = "(//a[@title='"+ele+"'])[2]";
 		System.out.println("The path - " + path);
 		WebElement WE = driver.findElement(By.xpath(path));
-		
+		Actions act = new Actions(driver);
+    	act.moveToElement(WE).build().perform();
 		return WE.isDisplayed();
 		
 	}
