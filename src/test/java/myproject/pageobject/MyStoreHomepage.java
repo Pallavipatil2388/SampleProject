@@ -1,5 +1,7 @@
 package myproject.pageobject;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Iterator;
 import java.util.Set;
 
@@ -18,36 +20,42 @@ public class MyStoreHomepage
 {
 	private static final Logger logger = LogManager.getLogger(MyStoreHomepage.class);
 	WebDriver driver;
-
-	 private By applogo = By.xpath("//img[@class='img-responsive']");
+     
+	 private By applogo = By.xpath("//img[@class ='logo img-responsive']");
 	 private By menuOption =By.xpath("//ul[@class = 'sf-menu clearfix menu-content sf-js-enabled sf-arrows']/li");
-	 private By searchbox = By.xpath("//input[@class='search_query form-control ac_input']");
-	 private By searchresult = By.xpath("//*[@id='index']/div[2]/ul/li/strong");
+	 private By searchbox = By.xpath("//input[@type = 'text']");
+	 private By searchbtn = By.xpath("//button[@name='submit_search']");
 	 private By footerlink = By.xpath("//li[@class='twitter']/a[@target='_blank']");
      private By accountname = By.xpath("(//span[contains(text(),'Selenium Framework')])[2]");
-     
-	//private By searchbtn = By.xpath("//button[@name='submit_search']");
+	
+     //private By searchbox = By.xpath("//input[@class='search_query form-control ac_input']");  
+	 //private By searchresult = By.xpath("//*[@id='index']/div[2]/ul/li/strong");
+	 //private By searchbtn = By.xpath("//button[@name='submit_search']");
 
 	public MyStoreHomepage(WebDriver driver) 
 	{
 		this.driver = driver;
 	}
 	
-	public boolean getVisbilityOfLogo()
+	public void getVisbilityOfLogo()
 	{
-		return driver.findElement(applogo).isDisplayed();
-		
+		//return driver.findElement(applogo2).isDisplayed();
+		WebElement logovisible = driver.findElement(applogo);
+		Assert.assertEquals("Logo not displayed",true,logovisible.isDisplayed());
 	}
 
 	public int getLogoWidth() 
 	{
-		return driver.findElement(applogo).getSize().getWidth();		
-	
+		int  width = driver.findElement(applogo).getSize().getWidth();
+		System.out.println("Actaul width = " +width);
+	    return width;
 	}
 
 	public int getLogoHeight()
 	{
-		return driver.findElement(applogo).getSize().getHeight();
+		int height = driver.findElement(applogo).getSize().getHeight();
+		System.out.println("Actual height - " +height);
+		return height;
 	}
 
 	public int getOptionCount() 
@@ -70,14 +78,17 @@ public class MyStoreHomepage
 	{
 		WebElement ele = driver.findElement(searchbox);
 		ele.sendKeys(product_name);
-			
+		driver.findElement(searchbtn).click();	
 	}
 
-	public boolean getVisibilityofResult() 
+	public void getVisibilityofResult() 
 	{
 		WebDriverWait wait = new WebDriverWait(driver,60);
-		wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(searchresult));
-		return true;
+		//wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(searchresult));
+		String expectedtitle="Search - My Store";
+	    String actualtitle = driver.getTitle();
+	    Assert.assertEquals("Page valiadtion", expectedtitle,actualtitle);
+		//return true;
 	}
 
 	public void clickontwitterlink() 
